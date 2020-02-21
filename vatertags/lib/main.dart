@@ -1,11 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:vector_math/vector_math.dart' as Vector;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/animation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
+import 'particle.dart';
 
 void main() => runApp(MaterialApp(
   home: MyApp(),
@@ -104,6 +104,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
                           ],
                         ),
                       ),
+                      Positioned.fill(child: Particles(30))
                     ],
                   ),
                 ),
