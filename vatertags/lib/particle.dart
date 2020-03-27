@@ -1,13 +1,15 @@
 import 'dart:math';
+import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TextStyle;
 import 'package:simple_animations/simple_animations.dart';
 
 
 class Particles extends StatefulWidget {
   final int numberOfParticles;
+  final String text;
 
-  Particles(this.numberOfParticles);
+  Particles(this.numberOfParticles, this.text);
 
   @override
   _ParticlesState createState() => _ParticlesState();
@@ -17,6 +19,7 @@ class _ParticlesState extends State<Particles> {
   final Random random = Random();
 
   final List<ParticleModel> particles = [];
+
 
   @override
   void initState() {
@@ -33,7 +36,7 @@ class _ParticlesState extends State<Particles> {
       onTick: _simulateParticles,
       builder: (context, time) {
         return CustomPaint(
-          painter: ParticlePainter(particles, time),
+          painter: ParticlePainter(particles, time, widget.text),
         );
       },
     );
@@ -55,7 +58,7 @@ class ParticleModel {
   }
 
   restart({Duration time = Duration.zero}) {
-    final startPosition = Offset(-0.2 + 1.4 * random.nextDouble(), 1.2);
+    final startPosition = Offset(-0.2 + 1.4 * random.nextDouble(), 1.4);
     final endPosition = Offset(-0.2 + 1.4 * random.nextDouble(), -0.2);
     final duration = Duration(milliseconds: 500 + random.nextInt(12000));
 
@@ -81,20 +84,31 @@ class ParticleModel {
 class ParticlePainter extends CustomPainter {
   List<ParticleModel> particles;
   Duration time;
+  String text;
 
-  ParticlePainter(this.particles, this.time);
+  ParticlePainter(this.particles, this.time, this.text);
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = Colors.yellow.withAlpha(50);
 
-    particles.forEach((particle) {
+    particles.asMap().forEach((index, particle) {
       var progress = particle.animationProgress.progress(time);
       final animation = particle.tween.transform(progress);
-      final position =
-      Offset(animation["x"] * size.width, animation["y"] * size.height);
+      final position = Offset(animation["x"] * size.width, animation["y"] * size.height);
+      if(index == 15) {
+        final textStyle = TextStyle(color: Color.fromRGBO(255, 127, 80, 0.5));
+        final paragraphStyle = ParagraphStyle(textAlign: TextAlign.center);
+        final paragraphBuilder = ParagraphBuilder(paragraphStyle)
+          ..pushStyle(textStyle)
+          ..addText(text);
+        final paragraph = paragraphBuilder.build()
+          ..layout(ParagraphConstraints(width: 100));
+        canvas.drawParagraph(paragraph, position);
+      }
       canvas.drawCircle(position, size.width * 0.2 * particle.size, paint);
     });
+
   }
 
   @override

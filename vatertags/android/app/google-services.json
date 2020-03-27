@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "109864738431",
+    "firebase_url": "https://vatertags-e02d2.firebaseio.com",
+    "project_id": "vatertags-e02d2",
+    "storage_bucket": "vatertags-e02d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109864738431:android:23ff4f704e37a20b89a94a",
+        "android_client_info": {
+          "package_name": "com.example.vatertags"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109864738431-nris6j2meohe3l0ap9nmsgndluvdtmci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyCh6wiRLSUdLw09BuqKSKLSknM6FqrgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109864738431-nris6j2meohe3l0ap9nmsgndluvdtmci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
