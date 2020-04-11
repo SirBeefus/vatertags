@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SocialPage extends StatefulWidget {
   @override
   _SocialPageState createState() {
-    return _SocialPageState();
+    return new _SocialPageState();
   }
 }
 
@@ -57,15 +57,36 @@ class _SocialPageState extends State<SocialPage> {
           title: Text(record.name),
           trailing: Text(record.count.toString()),
           onTap: () => record.reference.updateData({'count': FieldValue.increment(1)})
-//              Firestore.instance.runTransaction((transaction) async {
-//            final freshSnapshot = await transaction.get(record.reference);
-//            final fresh = Record.fromSnapshot(freshSnapshot);
-//            await transaction
-//                .update(record.reference, {'count': fresh.count + 1})
         ),
       ),
     );
   }
+
+  Widget _buildTextInputForm(BuildContext context){
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Biergeschichten'
+      ),
+    );
+  }
+}
+
+class RecordMessage {
+  final String story;
+  final DateTime time;
+  final DocumentReference reference;
+
+  RecordMessage.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['story'] != null),
+        assert(map['time'] != null),
+        story = map['story'],
+        time = map['time'];
+
+  RecordMessage.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$story>";
 }
 
 class Record {

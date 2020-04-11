@@ -5,6 +5,8 @@ import 'package:flutter/animation.dart';
 import 'dart:math' as math;
 import 'particle.dart';
 import 'social.dart';
+import 'freeman.dart';
+import 'ostsee.dart';
 import 'wave.dart';
 
 void main() => runApp(MaterialApp(
@@ -59,6 +61,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
     ThemeData themeData = Theme.of(context);
     Size size = new Size(MediaQuery.of(context).size.width, 200.0);
     return Scaffold(
+      bottomNavigationBar: _bottomNav(),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
@@ -153,24 +156,50 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.orangeAccent,
-                      elevation: 20,
-                      child: Icon(Icons.local_drink),
-                      onPressed: (){
-                        Navigator.of(context).push(_createRoute());
-                      },
-                    ),
-                  ),
                 ]
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    if(index == 1){
+      Navigator.of(context).push(_createRoute(SocialPage()));
+    }
+    if(index == 2){
+      Navigator.of(context).push(_createRoute(Freeman()));
+    }
+    if(index == 3){
+      Navigator.of(context).push(_createRoute(Ostsee()));
+    }
+  }
+
+  Widget _bottomNav(){
+    return BottomNavigationBar(
+      selectedFontSize: 10,
+      showUnselectedLabels: true,
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Beer')
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.local_drink),
+            title: Text('Vote Drinks')
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.gamepad),
+            title: Text('Freeman')
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.videogame_asset),
+            title: Text('Ostsee')
+        )
+      ],
+      onTap: _onItemTapped,
     );
   }
 }
@@ -210,13 +239,13 @@ class TimerPainter extends CustomPainter {
 }
 
 
-Route _createRoute() {
+Route _createRoute(Widget widget) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => SocialPage(),
+    pageBuilder: (context, animation, secondaryAnimation) => widget,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = Offset(0.0, 1.0);
       var end = Offset.zero;
-      var curve = Curves.ease;
+      var curve = Curves.easeInOutCirc;
 
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
